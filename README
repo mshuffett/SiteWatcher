@@ -1,0 +1,2 @@
+SiteWatcher is a Scrapy application that watches sites for
+changes and alerts the user when there is a new change.
