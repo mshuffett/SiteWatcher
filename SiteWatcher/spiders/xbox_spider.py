@@ -1,6 +1,5 @@
 from scrapy.spider import BaseSpider
 from scrapy.selector import HtmlXPathSelector
-from scrapy import log
 
 from SiteWatcher.items import XboxItem
 

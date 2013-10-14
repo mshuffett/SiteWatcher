@@ -17,6 +17,7 @@ SPIDER_MODULES = ['SiteWatcher.spiders']
 NEWSPIDER_MODULE = 'SiteWatcher.spiders'
 
 ITEM_PIPELINES = ['SiteWatcher.pipelines.SitewatcherPipeline']
+EXTENSIONS = {'SiteWatcher.extensions.StatusMailer': 80}
 ROOT_DIR = '/home/michael/Dropbox/ws/SiteWatcher'
 
 # user_settings takes precedence over these settings
