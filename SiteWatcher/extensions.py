@@ -119,6 +119,9 @@ class StatusMailer(object):
     def spider_closed(self, spider, reason):
         files = []
 
+        if not self.files:
+            return
+
         for name, compressed in self.files.items():
             files.append((name + compressed.extension,
                           compressed.mimetype, compressed))
