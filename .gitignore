@@ -2,3 +2,4 @@
 dbs/
 sitewatcher.db
 *.pyc
+user_settings.py

@@ -5,6 +5,11 @@
 #
 #     http://doc.scrapy.org/en/latest/topics/settings.html
 #
+# Crawl responsibly by identifying yourself
+# (and your website) on the user-agent
+# USER_AGENT = 'SiteWatcher (+http://www.yourdomain.com)'
+
+from scrapy import log
 
 BOT_NAME = 'SiteWatcher'
 
@@ -14,5 +19,9 @@ NEWSPIDER_MODULE = 'SiteWatcher.spiders'
 ITEM_PIPELINES = ['SiteWatcher.pipelines.SitewatcherPipeline']
 ROOT_DIR = '/home/michael/Dropbox/ws/SiteWatcher'
 
-# Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'SiteWatcher (+http://www.yourdomain.com)'
+# user_settings takes precedence over these settings
+try:
+    from user_settings import *
+except ImportError as e:
+    log.msg("No user_settings.py file present. Using default settings.",
+            level=log.WARNING)
