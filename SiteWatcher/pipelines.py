@@ -37,21 +37,21 @@ class SitewatcherPipeline(object):
 
         return item
 
-    def sendemail(self, from_addr, to_addr,
+    def sendemail(self, from_addr, to_addrs,
                   subject, message,
                   login, password,
                   smtpserver='smtp.gmail.com:587'):
-        log.msg('Alerting %s about new items' % to_addr)
+        log.msg('Alerting %s about new items' % ', '.join(to_addrs))
 
         header = 'From: %s\n' % from_addr
-        header += 'To: %s\n' % to_addr
+        header += 'To: %s\n' % ', '.join(to_addrs)
         header += 'Subject: %s\n\n' % subject
         message = header + message
 
         server = smtplib.SMTP(smtpserver)
         server.starttls()
         server.login(login, password)
-        problems = server.sendmail(from_addr, [to_addr], message)
+        problems = server.sendmail(from_addr, to_addrs, message)
         if problems:
             log.msg('Problem sending email %s' % problems, level=log.ERROR)
         else:
@@ -64,12 +64,13 @@ class SitewatcherPipeline(object):
         self.conn.close()
 
         if self.new_titles:
-            self.sendemail(from_addr=self.settings['MAIL_FROM'],
-                           to_addr=self.settings['EMAIL_TO'],
-                           subject='New Xbox Games!',
-                           message='\n'.join(self.new_titles),
-                           login=self.settings['MAIL_USER'],
-                           password=self.settings['MAIL_PASS'])
+            self.sendemail(
+                from_addr=self.settings['MAIL_FROM'],
+                to_addrs=self.settings.getlist('STATUSMAILER_RECIPIENTS'),
+                subject='New Xbox Games!',
+                message='\n'.join(self.new_titles),
+                login=self.settings['MAIL_USER'],
+                password=self.settings['MAIL_PASS'])
 
     @classmethod
     def from_crawler(cls, crawler):
